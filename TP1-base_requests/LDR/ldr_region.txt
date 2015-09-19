@@ -1,0 +1,11 @@
+LOAD DATA
+CHARACTERSET UTF8
+INFILE 'Region.csv'
+APPEND
+INTO TABLE Region
+FIELDS TERMINATED BY X'9'
+(reg "to_char(:reg)",
+chef_lieu "to_char(:chef_lieu)",
+nom_reg "to_char(:nom_reg)"
+)
+
