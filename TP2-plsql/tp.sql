@@ -25,3 +25,35 @@ begin
 end;
 /
 
+create or replace trigger testJour
+before insert or update or delete on region
+begin
+	JoursEtHeuresOuvrables();
+end;
+/
+
+-- 2.3
+
+CREATE table historique
+(
+	dateOperation date,
+	nomUsager varchar(30),
+	typeOperation varchar(200)
+);
+
+create or replace trigger histoRegion
+before insert or update or delete on region
+declare
+typeOp varchar(15);
+BEGIN
+	if inserting then
+		typeOp := 'Insertion';
+	elsif updating then
+		typeOp := 'Modification';
+	elsif deleting then
+		typeOp := 'Suppression';
+	end if;
+	INSERT INTO historique VALUES (SYSDATE, USER, typeOp);
+end;
+/
+
