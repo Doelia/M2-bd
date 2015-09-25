@@ -74,9 +74,9 @@ UPDATE Commune SET code_insee = CONCAT(dep, com);
 
 ALTER TABLE Commune ADD CONSTRAINT pk_commune PRIMARY KEY(code_insee);
 
-SELECT COUNT(*),code_insee
-FROM Commune
-GROUP BY code_insee
-HAVING COUNT(*)>1;
+-- SELECT COUNT(*),code_insee
+-- FROM Commune
+-- GROUP BY code_insee
+-- HAVING COUNT(*)>1;
 
-ALTER TABLE Commune DROP colum reg;
+ALTER TABLE Commune DROP column reg;
