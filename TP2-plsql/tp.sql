@@ -44,7 +44,7 @@ CREATE table historique
 create or replace trigger histoRegion
 before insert or update or delete on region
 declare
-typeOp varchar(15);
+	typeOp varchar(15);
 BEGIN
 	if inserting then
 		typeOp := 'Insertion';
@@ -54,6 +54,22 @@ BEGIN
 		typeOp := 'Suppression';
 	end if;
 	INSERT INTO historique VALUES (SYSDATE, USER, typeOp);
+end;
+/
+
+-- 2.4
+
+create or replace TRIGGER cascadeRegion
+before delete or update on region for each row
+declare
+	oldDep region.reg%TYPE;
+begin
+	oldDep := :old.reg;
+	if deleting then
+		DELETE FROM departement WHERE reg=oldDep;
+	elsif updating then
+		UPDATE departement SET reg=oldDep;
+	end if;
 end;
 /
 
