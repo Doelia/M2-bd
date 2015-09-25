@@ -58,7 +58,6 @@ end;
 /
 
 -- 2.4
-
 create or replace TRIGGER cascadeRegion
 before delete or update on region for each row
 declare
@@ -72,4 +71,30 @@ begin
 	end if;
 end;
 /
+
+-- 2.1.1
+declare record_dep departement%ROWTYPE;
+ record_com commune%ROWTYPE;
+ ajout float;
+ total float;
+BEGIN
+total := 0;
+FOR record_dep IN (SELECT departement.dep FROM departement WHERE departement.nom_dep = 'HERAULT')
+LOOP
+    FOR record_com IN (SELECT * FROM commune)
+    LOOP
+        if (record_com.dep = record_dep.dep) then 
+            ajout := record_com.pop_2010;
+            total := total + ajout;
+        end if;
+    END LOOP;
+END LOOP;
+DBMS_OUTPUT.PUT_LINE('Le nombre de habitants en 2010 dans le Hérault est de '||total);
+END;
+/
+
+-- 2.1.2
+-- TODO Marlène
+
+-- 2.2.1
 
