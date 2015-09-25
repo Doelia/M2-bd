@@ -16,8 +16,12 @@ end;
 -- 2.2
 create or replace procedure
 	JoursEtHeuresOuvrables
+IS
 begin
-	
-
+	if (to_char(sysdate,'DY')='SAT') or (to_char(sysdate,'DY')='SUN')
+	then
+		raise_application_error(-20010, 'Modification interdite le '||to_char(sysdate,'DAY'));
+	end if ;
 end;
 /
+
