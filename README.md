@@ -12,8 +12,8 @@ HMIN328 - Administration des bases de données
 	- Procédures
 	- Fonctions
 	- Curseurs implicites/explicites
-	- [Fiche PDF récap sur PL/SQL](https://github.com/Doelia/M2-bd/blob/master/TP2-plsql/HMIN328_c1.pdf)
+	- [Fiche PDF récap sur PL/SQL](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_c1.pdf)
 - TP de 3 heures
-	- Début [TP2](https://github.com/Doelia/M2-bd/blob/master/TP2-plsql/HMIN328_TP2.pdf) sur les trigger et procédures en PL/SQL
+	- Début [TP2](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_TP2.pdf) sur les trigger et procédures en PL/SQL
 	- TP pas terminé, 3 questions restantes
 
