@@ -1,7 +1,6 @@
 --
 
 
-
 create or replace function
 	DistanceKM (comA in varchar, comB in varchar)
 	return number
@@ -27,9 +26,14 @@ begin
 
 	return 6366*acos(cos((lat_a))*cos((lat_b))*cos((long_b)-(long_a))+sin((lat_a))*sin((lat_b)));
 
+	EXCEPTION
+	      WHEN NO_DATA_FOUND THEN
+	       raise_application_error(-20010, 'Commune introuvable');
+
 end;
 /
 
 SELECT DistanceKM('MONTPELLIER', 'PARIS') FROM dual;
 -- Return  594.478432
+
 
