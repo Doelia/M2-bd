@@ -1,39 +1,62 @@
---
 
+create or replace package UrbanUnits
+as
+	k_rad constant float := 57.295779513082;
 
-create or replace function
-	DistanceKM (comA in varchar, comB in varchar)
-	return number
-IS
-	lat_a FLOAT;
-	lat_b FLOAT;
-	long_a FLOAT;
-	long_b FLOAT;
-begin
-	SELECT latitude into lat_a
-	FROM Commune where nom_com = comA;
-	SELECT longitude into long_a
-	FROM Commune where nom_com = comA;
-	SELECT latitude into lat_b
-	FROM Commune where nom_com = comB;
-	SELECT longitude into long_b
-	FROM Commune where nom_com = comB;
-
-	lat_a := lat_a/57.295779513082;
-	lat_b := lat_b/57.295779513082;
-	long_a := long_a/57.295779513082;
-	long_b := long_b/57.295779513082;
-
-	return 6366*acos(cos((lat_a))*cos((lat_b))*cos((long_b)-(long_a))+sin((lat_a))*sin((lat_b)));
-
-	EXCEPTION
-	      WHEN NO_DATA_FOUND THEN
-	       raise_application_error(-20010, 'Commune introuvable');
-
-end;
+	function DistanceKM (comA in varchar, comB in varchar) return number;
+end UrbanUnits;
 /
 
-SELECT DistanceKM('MONTPELLIER', 'PARIS') FROM dual;
+create or replace package body UrbanUnits
+as
+
+	function
+		DistanceKM (comA in varchar, comB in varchar) return number
+	IS
+		lat_a FLOAT;
+		lat_b FLOAT;
+		long_a FLOAT;
+		long_b FLOAT;
+	begin
+		SELECT latitude, longitude into lat_a, long_a
+		FROM Commune where nom_com = comA;
+
+		SELECT latitude, longitude into lat_b, long_b
+		FROM Commune where nom_com = comB;
+
+		lat_a := lat_a/k_rad;
+		lat_b := lat_b/k_rad;
+		long_a := long_a/k_rad;
+		long_b := long_b/k_rad;
+
+		return 6366*acos(cos((lat_a))*cos((lat_b))*cos((long_b)-(long_a))+sin((lat_a))*sin((lat_b)));
+
+		EXCEPTION
+		      WHEN NO_DATA_FOUND THEN
+		       raise_application_error(-20010, 'Commune introuvable');
+
+	end;
+
+end UrbanUnits;
+/
+
+SELECT UrbanUnits.DistanceKM('MONTPELLIER', 'PARIS') FROM dual;
 -- Return  594.478432
 
+create or replace package Supervision
+as
+	procedure getDatas (nameTable in varchar);
+end UrbanUnits;
+/
 
+create or replace package body Supervision
+as
+	
+end UrbanUnits;
+/
+
+
+SELECT c.COLUMN_NAME, c.DATA_TYPE, k.CONSTRAINT_NAME
+FROM user_tab_columns c
+	LEFT JOIN user_cons_columns k ON c.TABLE_NAME=k.TABLE_NAME AND c.COLUMN_NAME=k.COLUMN_NAME
+WHERE c.TABLE_NAME = 'COMMUNE';
