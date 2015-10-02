@@ -40,23 +40,46 @@ as
 end UrbanUnits;
 /
 
+
+
+
+
 SELECT UrbanUnits.DistanceKM('MONTPELLIER', 'PARIS') FROM dual;
 -- Return  594.478432
+
+
+
 
 create or replace package Supervision
 as
 	procedure getDatas (nameTable in varchar);
-end UrbanUnits;
+	procedure getConnectedUsers;
+end Supervision;
 /
+
 
 create or replace package body Supervision
 as
-	
-end UrbanUnits;
+	procedure getDatas (nameTable in varchar)
+	is
+	begin
+		SELECT c.COLUMN_NAME, c.DATA_TYPE, k.CONSTRAINT_NAME
+		FROM user_tab_columns c
+			LEFT JOIN user_cons_columns k ON c.TABLE_NAME=k.TABLE_NAME AND c.COLUMN_NAME=k.COLUMN_NAME
+		WHERE c.TABLE_NAME = nameTable;
+	end;
+
+	procedure getConnectedUsers
+	is
+	begin
+		select username, osuser, terminal
+		from v$session
+		where username is not null;
+	end;
+
+end Supervision;
 /
 
 
-SELECT c.COLUMN_NAME, c.DATA_TYPE, k.CONSTRAINT_NAME
-FROM user_tab_columns c
-	LEFT JOIN user_cons_columns k ON c.TABLE_NAME=k.TABLE_NAME AND c.COLUMN_NAME=k.COLUMN_NAME
-WHERE c.TABLE_NAME = 'COMMUNE';
+
+
