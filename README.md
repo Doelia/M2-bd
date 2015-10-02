@@ -17,3 +17,9 @@ HMIN328 - Administration des bases de données
 	- Début [TP2](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_TP2.pdf) sur les trigger et procédures en PL/SQL
 	- TP pas terminé, 3 questions restantes
 
+## Séance 02/10
+- Cours 1h
+	- Packages
+	- Méta données
+	- SQL dynamique (= exec)
+- Début [TP3](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_TP3.pdf)
