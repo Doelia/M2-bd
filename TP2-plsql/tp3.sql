@@ -1,92 +1,92 @@
-set serveroutput on;
+SET SERVEROUTPUT ON;
 
 
-create or replace package UrbanUnits
-as
-	k_rad constant float := 57.295779513082;
+CREATE OR REPLACE PACKAGE BODY URBANUNITS
+AS
+	K_RAD CONSTANT FLOAT := 57.295779513082;
 
-	function DistanceKM (comA in varchar, comB in varchar) return number;
-end UrbanUnits;
+	FUNCTION DISTANCEKM (COMA IN VARCHAR, COMB IN VARCHAR) RETURN NUMBER;
+END URBANUNITS;
 /
 
-create or replace package body UrbanUnits
-as
+CREATE OR REPLACE PACKAGE BODY URBANUNITS
+AS
 
-	function
-		DistanceKM (comA in varchar, comB in varchar) return number
+	FUNCTION
+		DISTANCEKM (COMA IN VARCHAR, COMB IN VARCHAR) RETURN NUMBER
 	IS
-		lat_a FLOAT;
-		lat_b FLOAT;
-		long_a FLOAT;
-		long_b FLOAT;
-	begin
-		SELECT latitude, longitude into lat_a, long_a
-		FROM Commune where nom_com = comA;
+		LAT_A FLOAT;
+		LAT_B FLOAT;
+		LONG_A FLOAT;
+		LONG_B FLOAT;
+	BEGIN
+		SELECT LATITUDE, LONGITUDE INTO LAT_A, LONG_A
+		FROM COMMUNE WHERE NOM_COM = COMA;
 
-		SELECT latitude, longitude into lat_b, long_b
-		FROM Commune where nom_com = comB;
+		SELECT LATITUDE, LONGITUDE INTO LAT_B, LONG_B
+		FROM COMMUNE WHERE NOM_COM = COMB;
 
-		lat_a := lat_a/k_rad;
-		lat_b := lat_b/k_rad;
-		long_a := long_a/k_rad;
-		long_b := long_b/k_rad;
+		LAT_A := LAT_A/K_RAD;
+		LAT_B := LAT_B/K_RAD;
+		LONG_A := LONG_A/K_RAD;
+		LONG_B := LONG_B/K_RAD;
 
-		return 6366*acos(cos((lat_a))*cos((lat_b))*cos((long_b)-(long_a))+sin((lat_a))*sin((lat_b)));
+		RETURN 6366*ACOS(COS((LAT_A))*COS((LAT_B))*COS((LONG_B)-(LONG_A))+SIN((LAT_A))*SIN((LAT_B)));
 
 		EXCEPTION
 		      WHEN NO_DATA_FOUND THEN
-		       raise_application_error(-20010, 'Commune introuvable');
+		       RAISE_APPLICATION_ERROR(-20010, 'COMMUNE INTROUVABLE');
 
-	end;
+	END;
 
-end UrbanUnits;
+END URBANUNITS;
 /
 
--- Utilisation:
-SELECT UrbanUnits.DistanceKM('MONTPELLIER', 'PARIS') FROM dual;
--- Return  594.478432
+-- UTILISATION:
+SELECT URBANUNITS.DISTANCEKM('MONTPELLIER', 'PARIS') FROM DUAL;
+-- RETURN  594.478432
 
 
 
-CREATE or REPLACE package Supervision
-as
-	procedure getDatas (nameTable in varchar);
-	procedure getConnectedUsers;
-end Supervision;
+CREATE OR REPLACE PACKAGE SUPERVISION
+AS
+	PROCEDURE GETDATAS (NAMETABLE IN VARCHAR);
+	PROCEDURE GETCONNECTEDUSERS;
+END SUPERVISION;
 /
 
 
 CREATE OR REPLACE
-package body SUPERVISION
-as
-	procedure GETDATAS (nameTable in varchar)
-	is
+PACKAGE BODY SUPERVISION
+AS
+	PROCEDURE GETDATAS (NAMETABLE IN VARCHAR)
+	IS
 
-	begin
+	BEGIN
 
-		for CUR_VAR IN (SELECT c.COLUMN_NAME, c.DATA_TYPE, k.CONSTRAINT_NAME
-		FROM user_tab_columns c
-		LEFT JOIN user_cons_columns k ON c.TABLE_NAME=k.TABLE_NAME AND c.COLUMN_NAME=k.COLUMN_NAME
-		WHERE c.TABLE_NAME = nameTable)
-		loop
-			 dbms_output.put_line(CUR_VAR.COLUMN_NAME||' '||CUR_VAR.DATA_TYPE||' '||CUR_VAR.CONSTRAINT_NAME);
-		end loop;
+		FOR CUR_VAR IN (SELECT C.COLUMN_NAME, C.DATA_TYPE, K.CONSTRAINT_NAME
+		FROM USER_TAB_COLUMNS C
+		LEFT JOIN USER_CONS_COLUMNS K ON C.TABLE_NAME=K.TABLE_NAME AND C.COLUMN_NAME=K.COLUMN_NAME
+		WHERE C.TABLE_NAME = NAMETABLE)
+		LOOP
+			 DBMS_OUTPUT.PUT_LINE(CUR_VAR.COLUMN_NAME||' '||CUR_VAR.DATA_TYPE||' '||CUR_VAR.CONSTRAINT_NAME);
+		END LOOP;
 
-	end ;
+	END ;
 
-	procedure getConnectedUsers
-	is
-	begin
-		for CUR_VAR IN (select username, osuser, terminal
-		from v$session
-		where username is not null)
-		loop
-			 dbms_output.put_line(CUR_VAR.username||' '||CUR_VAR.osuser||' '||CUR_VAR.terminal);
-		end loop;
-	end;
+	PROCEDURE GETCONNECTEDUSERS
+	IS
+	BEGIN
+		FOR CUR_VAR IN (SELECT USERNAME, OSUSER, TERMINAL
+		FROM V$SESSION
+		WHERE USERNAME IS NOT NULL)
+		LOOP
+			 DBMS_OUTPUT.PUT_LINE(CUR_VAR.USERNAME||' '||CUR_VAR.OSUSER||' '||CUR_VAR.TERMINAL);
+		END LOOP;
+	END;
 
 
-end SUPERVISION;
+END SUPERVISION;
 /
 
 -- TEST:
