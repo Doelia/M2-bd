@@ -5,7 +5,7 @@ set serveroutput on;
 -- 2.1
 -- Construisez un trigger qui v ́erifie que la population de 2010 (pop 2010 de Commune) est toujours
 -- positive (ordres insert et update)
-CREATE OR replace TRIGGER verif_pop
+CREATE OR REPLACE TRIGGER verif_pop
 before INSERT OR update on Commune
 for each row
 begin
@@ -16,7 +16,7 @@ end;
 /
 
 -- 2.2
-create or replace procedure
+CREATE OR REPLACE procedure
 	JoursEtHeuresOuvrables
 IS
 begin
@@ -27,7 +27,7 @@ begin
 end;
 /
 
-create or replace trigger testJour
+CREATE OR REPLACE trigger testJour
 before insert or update or delete on region
 begin
 	JoursEtHeuresOuvrables();
@@ -43,7 +43,7 @@ CREATE table historique
 	typeOperation varchar(200)
 );
 
-create or replace trigger histoRegion
+CREATE OR REPLACE trigger histoRegion
 before insert or update or delete on region
 declare
 	typeOp varchar(15);
@@ -60,7 +60,7 @@ end;
 /
 
 -- 2.4
-create or replace TRIGGER cascadeRegion
+CREATE OR REPLACE TRIGGER cascadeRegion
 before delete or update on region for each row
 declare
 	oldDep region.reg%TYPE;
@@ -75,7 +75,9 @@ end;
 /
 
 -- 2.1.1
-declare record_dep departement%ROWTYPE;
+-- Par Marlène (ce que était demandé était bien plus simple :P)
+declare
+ record_dep departement%ROWTYPE;
  record_com commune%ROWTYPE;
  ajout float;
  total float;
