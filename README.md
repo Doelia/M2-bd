@@ -23,3 +23,4 @@ HMIN328 - Administration des bases de données
 	- Méta données
 	- SQL dynamique (= exec)
 - Début [TP3](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_TP3.pdf) (TP2 séance 2)
+    - Création de packages, fonctions, procédures
