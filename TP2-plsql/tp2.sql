@@ -1,5 +1,7 @@
 -- TP2
 
+set serveroutput on;
+
 -- 2.1
 -- Construisez un trigger qui v ́erifie que la population de 2010 (pop 2010 de Commune) est toujours
 -- positive (ordres insert et update)
@@ -83,18 +85,24 @@ FOR record_dep IN (SELECT departement.dep FROM departement WHERE departement.nom
 LOOP
     FOR record_com IN (SELECT * FROM commune)
     LOOP
-        if (record_com.dep = record_dep.dep) then 
-            ajout := record_com.pop_2010;
+        if (record_com.dep = record_dep.dep) then
+            ajout := record_com.pop_2005;
             total := total + ajout;
         end if;
     END LOOP;
 END LOOP;
-DBMS_OUTPUT.PUT_LINE('Le nombre de habitants en 2010 dans le Hérault est de '||total);
+DBMS_OUTPUT.PUT_LINE('Le nombre de habitants en 2005 dans le Hérault est de '||total);
 END;
 /
 
 -- 2.1.2
+BEGIN
+    FOR record_dep IN (SELECT d.nom_dep, SUM(c.POP_2005) as n FROM commune c INNER JOIN departement d ON d.dep=c.dep
+    GROUP BY d.nom_dep)
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(record_dep.nom_dep||' pop : '||record_dep.n);
+    END LOOP;
+END;
+/
 
 -- 2.2.1
-
-
