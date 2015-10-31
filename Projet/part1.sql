@@ -43,3 +43,20 @@ END LOOP;
 return out;
 
 END;
+
+
+-- Exemple exerice 3
+
+set pages 0
+set feedback off
+set heading off
+set trimspool off
+set termout off
+set verify off
+set colsep ""
+set tab off
+set linesize 100
+SPOOL ON
+SPOOL file_out
+select * from region;
+SPOOL OFF
