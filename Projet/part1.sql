@@ -22,4 +22,24 @@ SELECT dbms_metadata.get_ddl('TABLE', TABLE_NAME, 'STEPHANE') FROM user_tables;
 SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER='STEPHANE';
 
 -- Schéma de construction pour toutes les tables d'un user
-SELECT dbms_metadata.get_ddl('TABLE', TABLE_NAME, 'STEPHANE') FROM DBA_TABLES WHERE OWNER='STEPHANE';
+SELECT dbms_metadata.get_ddl('TABLE', TABLE_NAME, 'STEPHANE') FROM ALL_TABLES WHERE OWNER='STEPHANE';
+
+-- Question 2.2.1
+-- Soucis de droit : ça marche que pour le schéma STEPHANE en pl/sql
+CREATE OR REPLACE
+FUNCTION "ToutesTables" (P_USER_NAME IN VARCHAR) RETURN CLOB
+IS
+	out CLOB;
+BEGIN
+
+out := '';
+
+FOR RECORD_INC IN (
+SELECT dbms_metadata.get_ddl('TABLE', TABLE_NAME, P_USER_NAME) AS INC FROM ALL_TABLES WHERE OWNER=P_USER_NAME)
+LOOP
+	out := RECORD_INC.INC||out;
+END LOOP;
+
+return out;
+
+END;
