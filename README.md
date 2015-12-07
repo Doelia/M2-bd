@@ -27,7 +27,7 @@ HMIN328 - Administration des bases de données
 - Début [TP3](https://github.com/Doelia/M2-bd/raw/master/TP2-plsql/HMIN328_TP3.pdf) (TP2 séance 2)
     - Création de packages, fonctions, procédures
 
-## Sénace 09/10
+## Séance 09/10
 Pas de cours, découverte du projet
 
 ## Séance 16/10
@@ -37,3 +37,10 @@ Pas de cours, découverte du projet
 - TP3 sur l'Architecture Oracle
     - TP "à trou", avancé sur google doc : https://docs.google.com/document/d/1GZrxMeHssDUFF9zj2hAgEflZWhaWWmFhN39U9SZQg80/edit
     - A finir proprement
+
+## Séance 4/12
+- Cours sur DbLink
+    - But : Utiliser pluseurs machines pour rapatir la charge
+    - 2 manières :
+       - shéma global -> 
+- TP sur Dblink : connexion de pluseurs instances oracle entres elle
