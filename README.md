@@ -42,5 +42,12 @@ Pas de cours, découverte du projet
 - Cours sur DbLink
     - But : Utiliser pluseurs machines pour rapatir la charge
     - 2 manières :
-       - shéma global -> 
+        - Approche déscendante (top-dowm)
+            - À partir d'un schéma global pour produire des schémas locaux :
+                - Fragmentation horizontale
+                - Fragmentation verticale
+                - Fragmentation hybride
+        - Approche ascendante (down-top)
+            - À partir des schémas locaux pour produire un schéma global
+            - C'est le TP bio avec les instantes MASTER/LICENCE
 - TP sur Dblink : connexion de pluseurs instances oracle entres elle
