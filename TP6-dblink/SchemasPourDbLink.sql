@@ -154,4 +154,3 @@ insert into Patient values ('A4C','Martin', 'Marc', 48,'F','Dengue','SaintEloi')
 commit;
 
 
-
