@@ -85,14 +85,14 @@ Augmenter la largeur de la fenêtre pour visualiser correctement les plans d'exe
 set linesize 160
 ```
 
-Pour activer/désactiver les indexes :
+Activer/désactiver les indexes :
 ```
 alter index PK_COMMUNE unusable;
 alter index PK_COMMUNE rebuild;
 
 ```
 
-Pour obtenir les plans d'execution :
+Bbtenir les plans d'execution :
 ```
 explain plan for ...
 select plan_table_output from table(dbms_xplan.display());
@@ -120,6 +120,8 @@ Sans index :
 Analyse  
 L’index est utile car le code_insee est déjà présent dans les index. Il n’y a pas besoin de chercher d’autres informations dans les blocs.
 
+*****
+
 ```
 explain plan for select code_insee, nom_com from commune;
 ```
@@ -132,6 +134,7 @@ Sans index :
 
 L’index n’est pas utilisé car le nom_com n’est répertorié que dans les blocs, et il n’y a pas de filtrage sur le code insee (pas de “where”). Avec ou sans index il faudra faire un table access full.
 
+*****
 
 ```
 explain plan for select nom_com from commune where code_insee='34192';
@@ -145,6 +148,8 @@ Sans index :
 
 L’index permet de faire un filtrage en temps constant pour le code insee, donc améliore beaucoup les performances.
 
+*****
+
 ```
 explain plan for select nom_com from commune where code_insee like '34%';
 ```
@@ -156,6 +161,8 @@ Sans index :
 ![alt tag](images/4s.png)
 
 L’index est intéressant dans ce cas également, puisqu’on cherche tous les code_insee commencant par une valeur.
+
+*****
 
 ```
 explain plan for select nom_com from commune where code_insee like '%34';
@@ -170,6 +177,8 @@ Sans index :
 
 Ici l’index ne peut pas être utilisé car on ne commence pas par le début du code_insee. Le rangement fait par l’index n’est pas utile.
 
+*****
+
 ```
 explain plan for select nom_com from commune where code_insee >= 34;
 ```
@@ -181,6 +190,8 @@ Sans index :
 ![alt tag](images/6s.png)
 
 L’index n’est pas utile car il y a une utilisation d’une fonction (to_number) pour chacun des tuples. Si l’index était un int, il n’y aurait pas besoin de transformation, donc l’index serait utile.
+
+*****
 
 ```
 explain plan for select nom_com from commune where code_insee in (‘34330’, ‘34331’, ‘34332’, ‘34333’);
