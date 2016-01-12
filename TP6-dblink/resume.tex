@@ -1,0 +1,77 @@
+\subsection{Préambule}\label{pruxe9ambule}
+
+\subsubsection{Approche déscendante
+(top-dowm)}\label{approche-duxe9scendante-top-dowm}
+
+À partir d'un schéma global pour produire des schémas locaux -
+Fragmentation horizontale - Fragmentation verticale - Fragmentation
+hybride
+
+\subsubsection{Approche ascendante
+(down-top)}\label{approche-ascendante-down-top}
+
+À partir des schémas locaux pour produire un schéma global
+
+\subsection{Plusieurs types de liens :}\label{plusieurs-types-de-liens}
+
+Lien privé portant sur un schéma utilisateur :
+
+\begin{verbatim}
+create database link nomDuLien connect to nomSchema identifie by motPasseSchema using 'nomService';
+\end{verbatim}
+
+Lien public défini globalement sur la base de donnés :
+
+\begin{verbatim}
+create public database link nomDuLien using 'nomService';
+\end{verbatim}
+
+Lien privé portant sur le schéma utilisateur interne user1 et la BD
+master :
+
+\begin{verbatim}
+create database link monLien connect to user1 identified by user1 using 'master';
+\end{verbatim}
+
+Lien privé portant sur le schéma utilisateur interne user1 et la BD
+licence :
+
+\begin{verbatim}
+create database link me_to_user1_licence connect to user1 identified by user1 using 'licence';
+\end{verbatim}
+
+\subsection{TP}\label{tp}
+
+Etapes : 1. démarche d'intégration de schémas de bases de données
+existants 2. démarche de décomposition
+
+Schéma 1 : pcavalet / MASTER Schéma 2 : swouters / LICENCE Master global
+: swouters / MASTER
+
+\subsubsection{~Création les liens}\label{cruxe9ation-les-liens}
+
+\begin{verbatim}
+create database link sc1 connect to pcavalet identified by pikynau using 'MASTER';
+create database link sc2 connect to swouters identified by wugaxu2 using 'LICENCE';
+\end{verbatim}
+
+Vérifier que ça marche :
+
+\begin{verbatim}
+select table_name from user_tables@sc1;
+\end{verbatim}
+
+\subsubsection{Requetes}\label{requetes}
+
+les informations générales sur les virus
+
+\begin{verbatim}
+select * from virus@sc1;
+\end{verbatim}
+
+\subsubsection{Créer des vues}\label{cruxe9er-des-vues}
+
+Vue dynamique : CREATE VIEW virus AS select * from virus@sc1;
+
+Vue matérialisée : CREATE MATERIALIZED VIEW virus AS select * from
+virus@sc1;
